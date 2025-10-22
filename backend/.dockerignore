@@ -1,0 +1,49 @@
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# IDE & editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.classpath
+
+# Environment files
+.env
+.env.*
+.env.local
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Build artifacts
+bin/
+dist/
+build/
+*.egg-info/
+
+# Testing
+*.test
+coverage/
+.coverage
+.pytest_cache/
+
+# Vendored dependencies
+vendor/
+.modules/
+
+# Documentation
+*.md
+LICENSE
+
+# Miscellaneous
+.cache/
+tmp/
+temp/

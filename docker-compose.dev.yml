@@ -1,0 +1,59 @@
+version: '3.8'
+
+# Development overrides for docker-compose.yml
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  database:
+    # Keep database exposed for local access
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_INITDB_SKIP_TZINFO: "yes"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    # Mount source code for hot reload
+    volumes:
+      - ./backend:/app
+      - /app/vendor  # Don't sync Go modules
+    environment:
+      - DEBUG=true
+      - LOG_LEVEL=debug
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_USER=${DB_USER:-kharisma}
+      - DB_PASSWORD=${DB_PASSWORD:-password}
+      - DB_NAME=${DB_DATABASE:-kharisma_db}
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-key}
+      - ENVIRONMENT=development
+    # Override with development server (air with hot reload)
+    command: ["air", "-c", ".air.toml"]
+    # Allow interactive terminal
+    stdin_open: true
+    tty: true
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    # Mount source code for hot reload
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Don't sync node_modules
+      - /app/.next         # Don't sync build output
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    # Override with development server (next dev)
+    command: ["npm", "run", "dev"]
+    # Allow interactive terminal
+    stdin_open: true
+    tty: true
+
+  # Remove nginx in development (direct access to services)
+  nginx:
+    profiles: ["production"]

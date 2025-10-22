@@ -1,0 +1,56 @@
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules/
+package-lock.json
+npm-debug.log
+
+# Build output
+.next/
+dist/
+build/
+out/
+coverage/
+
+# IDE & editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.classpath
+
+# Environment files
+.env
+.env.*
+.env.local
+
+# Testing
+*.test
+*.spec
+jest.config.js
+__tests__/
+coverage/
+.jest/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Documentation
+*.md
+LICENSE
+
+# Miscellaneous
+.cache/
+tmp/
+temp/
+.turbo/
+.eslintcache
+*.tsbuildinfo

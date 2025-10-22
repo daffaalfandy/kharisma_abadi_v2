@@ -1,0 +1,31 @@
+# Development Dockerfile for Go/Fiber backend
+# Optimized for development with hot reload
+
+FROM golang:1.21-alpine
+
+WORKDIR /app
+
+# Install development dependencies
+RUN apk add --no-cache git ca-certificates tzdata curl
+
+# Install air for hot reload
+RUN go install github.com/cosmtrek/air@latest
+
+# Copy go mod files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/api/v1/health || exit 1
+
+# Development server with hot reload using air
+CMD ["air", "-c", ".air.toml"]
