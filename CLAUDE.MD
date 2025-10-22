@@ -1,0 +1,3 @@
+- always warn about the context remaining and before starting a new task, make sure the left over context is enough for the task or not. if not, ask the user to use compact
+- when working on agent or skills, make sure to read the document completely and follow the rules/guidance on it
+- anything works regarding CI/CD will excluded because this application will be deployed manually on client PC (windows OS)
